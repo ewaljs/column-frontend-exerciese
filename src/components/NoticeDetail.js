@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { db } from "../db";
 import { doc, getDoc } from "firebase/firestore";
+import { db } from "../db";
 
 function NoticeDetail() {
   const [notice, setNotice] = useState(null);
@@ -36,7 +36,7 @@ function NoticeDetail() {
     <div className="max-w-2xl mx-auto p-4 py-10">
       <h1 className="text-3xl font-bold mb-2">{notice.title}</h1>
       <p className="text-gray-500 mb-4">
-        {new Date(notice.publicationDate.seconds * 1000).toLocaleDateString()}
+        {notice.publicationDate.toDate().toLocaleDateString()}
       </p>
       <div className="border-t pt-4">{notice.content}</div>
     </div>

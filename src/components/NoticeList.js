@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import NoticeItem from "./NoticeItem";
-import { db } from "../db";
 import {
   collection,
   query,
@@ -11,6 +10,7 @@ import {
   startAfter,
   Timestamp,
 } from "firebase/firestore";
+import { db } from "../db";
 
 function NoticeList({ searchQuery, filterDate }) {
   const [notices, setNotices] = useState([]);
@@ -39,10 +39,8 @@ function NoticeList({ searchQuery, filterDate }) {
       }
 
       if (filterDate) {
-        const startDate = new Date(filterDate);
-        startDate.setHours(0, 0, 0, 0);
-        const endDate = new Date(filterDate);
-        endDate.setHours(23, 59, 59, 999);
+        const startDate = new Date(filterDate + "T00:00:00");
+        const endDate = new Date(filterDate + "T23:59:59");
 
         q = query(
           q,

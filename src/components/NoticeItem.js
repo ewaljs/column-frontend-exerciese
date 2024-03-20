@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 function NoticeItem({ notice }) {
   const { title, id, publicationDate, content } = notice;
-  const pubDate = new Date(publicationDate.seconds * 1000);
 
   return (
     <div className="border rounded-lg p-4 shadow hover:shadow-md transition-shadow">
@@ -16,7 +15,7 @@ function NoticeItem({ notice }) {
         </Link>
       </h2>
       <p className="text-gray-500 text-sm mb-4">
-        {pubDate.toLocaleDateString()}
+        {publicationDate.toDate().toLocaleDateString()}
       </p>
       <p>{content}</p>
     </div>
