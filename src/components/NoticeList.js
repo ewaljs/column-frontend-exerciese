@@ -91,10 +91,21 @@ function NoticeList({ searchQuery, filterDate }) {
 
   return (
     <div>
-      {notices.map((notice) => (
-        <NoticeItem key={notice.id} notice={notice} />
-      ))}
-      {isMore && <button onClick={handleNext}>Load More</button>}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {notices.map((notice) => (
+          <NoticeItem key={notice.id} notice={notice} />
+        ))}
+      </div>
+      {isMore && (
+        <div className="text-center mt-4">
+          <button
+            onClick={handleNext}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Load More
+          </button>
+        </div>
+      )}
     </div>
   );
 }
