@@ -1,13 +1,19 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
+import NoticeDetail from "./components/NoticeDetail";
 import "./App.css";
-// import { db } from './db'; // Import this line to use the Firestore database connection
 
 function App() {
   return (
-    <div className="App">
-      <Dashboard />
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/notice/:id" element={<NoticeDetail />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
