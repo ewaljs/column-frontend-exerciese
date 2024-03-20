@@ -9,9 +9,10 @@ import {
   orderBy,
   limit,
   startAfter,
+  Timestamp,
 } from "firebase/firestore";
 
-function NoticeList({ searchQuery }) {
+function NoticeList({ searchQuery, filterDate }) {
   const [notices, setNotices] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -22,7 +23,11 @@ function NoticeList({ searchQuery }) {
     setIsLoading(true);
     setError("");
     try {
-      let q;
+      let q = query(
+        collection(db, "notices"),
+        orderBy("publicationDate", "desc"),
+        limit(10)
+      );
       if (searchQuery) {
         q = query(
           collection(db, "notices"),
@@ -31,13 +36,23 @@ function NoticeList({ searchQuery }) {
           limit(10),
           ...(next && lastVisible ? [startAfter(lastVisible)] : [])
         );
-      } else {
+      }
+
+      if (filterDate) {
+        const startDate = new Date(filterDate);
+        startDate.setHours(0, 0, 0, 0);
+        const endDate = new Date(filterDate);
+        endDate.setHours(23, 59, 59, 999);
+
         q = query(
-          collection(db, "notices"),
-          orderBy("publicationDate", "desc"),
-          limit(10),
-          ...(next && lastVisible ? [startAfter(lastVisible)] : [])
+          q,
+          where("publicationDate", ">=", Timestamp.fromDate(startDate)),
+          where("publicationDate", "<=", Timestamp.fromDate(endDate))
         );
+      }
+
+      if (next && lastVisible) {
+        q = query(q, startAfter(lastVisible));
       }
 
       const querySnapshot = await getDocs(q);
@@ -64,7 +79,7 @@ function NoticeList({ searchQuery }) {
 
   useEffect(() => {
     fetchNotices();
-  }, [searchQuery]);
+  }, [searchQuery, filterDate]);
 
   const handleNext = () => {
     fetchNotices(true);
