@@ -1,12 +1,13 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import Dashboard from "./components/Dashboard";
+import "./App.css";
 // import { db } from './db'; // Import this line to use the Firestore database connection
 
 function App() {
   return (
-    <p>
-      Edit <code>src/App.js</code> and save to reload.
-    </p>
+    <div className="App">
+      <Dashboard />
+    </div>
   );
 }
 
